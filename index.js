@@ -33,11 +33,18 @@ async function run() {
     // const userCollection = database.collection("users");
     const userCollection = client.db("usersDB").collection("users");
 
-    // Read
+    // Read many
     app.get("/users",async (req,res)=>{
       const cursor = userCollection.find();
       const result = await cursor.toArray();
       res.send(result);
+    })
+    // get one
+    app.get('/users/:id',async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id : new ObjectId (id)}
+       const result = await userCollection.findOne(query);
+       res.send(result);
     })
     
     // create
